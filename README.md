@@ -45,5 +45,6 @@
 
 <p>Create the exception package inside main > java > com.bootcamp.conta_service folder. 
   Then, create the exceptions <code>ContaExistenteException</code>, <code>ContaNaoExistenteException</code> and <code>SaldoInsuficienteException</code>.</p>
-
   
+<p>Create the configuration package inside main > java > com.bootcamp.conta_service folder. 
+  Then, create the <code>ControllerExceptionHandler</code> class.</p>

@@ -81,7 +81,24 @@ public class ContaService {
                 .build();
 
         return contaDTO;
-
     }
+
+    public ContaResponseDTO atualizarConta(ContaRequestDTO contaRequestDTO, UUID id){
+        Conta contaExistente = contaRepository.findById(id)
+                .orElseThrow(() -> new ContaNaoExistenteException("Conta não existe."));
+
+        contaExistente.setNomeTitular(contaRequestDTO.getNomeTitular());
+        contaExistente.setNumeroConta(contaRequestDTO.getNumeroConta());
+        contaExistente.setNumeroAgencia(contaRequestDTO.getNumeroAgencia());
+        contaExistente.setChavePix(contaRequestDTO.getChavePix());
+
+        contaExistente = contaRepository.save(contaExistente);
+
+        return ContaResponseDTO.builder()
+                .id(contaExistente.getId())
+                .nomeTitular(contaExistente.getNomeTitular())
+                .build();
+    }
+
 
 }

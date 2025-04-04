@@ -11,12 +11,12 @@ import jakarta.validation.constraints.NotEmpty;
 @Data
 @AllArgsConstructor
 public class ContaRequestDTO {
+    @NotNull
     private String nomeTitular;
+    @NotNull
     private Integer numeroAgencia;
-
     @NotNull
     private Integer numeroConta;
-
     @NotEmpty
     private String chavePix;
 

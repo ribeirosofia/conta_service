@@ -1,5 +1,6 @@
 package com.bootcamp.conta_service_2025.service;
 
+import com.bootcamp.conta_service_2025.dto.ContaDTO;
 import com.bootcamp.conta_service_2025.dto.ContaRequestDTO;
 import com.bootcamp.conta_service_2025.dto.ContaResponseDTO;
 import com.bootcamp.conta_service_2025.exception.ContaExistenteException;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,4 +49,20 @@ public class ContaService {
 
         return contaResponseDTO;
     }
+
+    public List<ContaDTO> buscaTodasContas(){
+        List<ContaDTO> contas = contaRepository.findAll().stream().map(
+                conta -> ContaDTO.builder()
+                        .id(conta.getId())
+                        .nomeTitular(conta.getNomeTitular())
+                        .numeroAgencia(conta.getNumeroAgencia())
+                        .numeroConta(conta.getNumeroConta())
+                        .chavePix(conta.getChavePix())
+                        .saldo(conta.getSaldo())
+                        .build())
+                .toList();
+
+            return contas;
+    }
+
 }

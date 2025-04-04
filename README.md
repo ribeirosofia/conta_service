@@ -48,3 +48,35 @@
   
 <p>Create the configuration package inside main > java > com.bootcamp.conta_service folder. 
   Then, create the <code>ControllerExceptionHandler</code> class.</p>
+
+<p>Create the controller package inside main > java > com.bootcamp.conta_service folder. 
+  Then, create the <code>ContaController</code> class.</p>
+
+<p>Inside the resources package, create the <code>application.yaml</code> file</p>
+
+<p>Test the application with H2 Database with the link <code>localhost:9000/h2-console/</code></p>
+
+<p>Test the application with Postman interface to create the HTTP methods.</p>
+
+<p>To do the Post method, it's necessary to use the link <code>http://localhost:9000/api/contas</code>. Change the body to raw (JSON) format and write the following attributes to be valid:</p>
+
+<code>
+    "nomeTitular": "exemplo",
+    "numeroAgencia": "1234",
+    "numeroConta": "56789",
+    "chavePix": "exemplo@pix"
+</code>
+
+<p>It will return status <code>201</code>, which means it was created.</p>
+
+<p>To do the Get method, it's the same link. The JSON that will be looking similar with the post you created. It will begin with the id number, the following attributes the user typed in post, and also the wage (saldo) it was set in the code.</p>
+
+<p>It will return status <code>200</code>, which means success.</p>
+
+<p>To use the Get method to find by id, use this link: <code>http://localhost:9000/api/contas/:id</code>. 
+In tha Path Variables table, the interface will display the id for the user to fill with an existent id in the database. 
+Copy the id from H2 database, past in the value field, and click on "Send" button. It will return the main attributes used before. It's an importante method to match for equal id keys. </p>
+
+<p>To use the Put method to update the user file, it's the same link as the last one. For the Params, it's necessary to use the id that the user wish to change the data, similar as the last one. 
+Then, in the body, use raw (JSON) format, using the same properties that was used to write the post method. Then, update the data you wish to change. 
+To test it, just repeat the last get method used with the same id to see if the data has changed. Also, test it on H2 Console.</p>

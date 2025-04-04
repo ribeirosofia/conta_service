@@ -4,6 +4,7 @@ import com.bootcamp.conta_service_2025.dto.ContaDTO;
 import com.bootcamp.conta_service_2025.dto.ContaRequestDTO;
 import com.bootcamp.conta_service_2025.dto.ContaResponseDTO;
 import com.bootcamp.conta_service_2025.exception.ContaExistenteException;
+import com.bootcamp.conta_service_2025.exception.ContaNaoExistenteException;
 import com.bootcamp.conta_service_2025.model.Conta;
 import com.bootcamp.conta_service_2025.repository.ContaRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -63,6 +65,23 @@ public class ContaService {
                 .toList();
 
             return contas;
+    }
+
+    public ContaDTO buscarContaById(UUID id){
+        Conta conta = contaRepository.findById(id)
+                .orElseThrow(() -> new ContaNaoExistenteException("Conta não existe."));
+
+        ContaDTO contaDTO = ContaDTO.builder()
+                .id(conta.getId())
+                .nomeTitular(conta.getNomeTitular())
+                .numeroAgencia(conta.getNumeroAgencia())
+                .numeroConta(conta.getNumeroConta())
+                .chavePix(conta.getChavePix())
+                .saldo(conta.getSaldo())
+                .build();
+
+        return contaDTO;
+
     }
 
 }

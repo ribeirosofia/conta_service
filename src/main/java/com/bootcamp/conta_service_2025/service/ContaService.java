@@ -100,5 +100,10 @@ public class ContaService {
                 .build();
     }
 
+    public void deletarConta(UUID id){
+        contaRepository.findById(id).orElseThrow(() -> new ContaNaoExistenteException("Conta não existe."));
+
+        contaRepository.deleteById(id);
+    }
 
 }

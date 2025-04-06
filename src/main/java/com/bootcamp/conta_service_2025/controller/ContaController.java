@@ -42,4 +42,11 @@ public class ContaController {
     public ResponseEntity<List<ContaDTO>> contas(){
         return ResponseEntity.status(HttpStatus.OK).body(contaService.buscaTodasContas());
     }
+
+   @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarConta(@PathVariable UUID id){
+        contaService.deletarConta(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+   }
+
 }

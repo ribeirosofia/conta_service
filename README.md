@@ -80,3 +80,5 @@ Copy the id from H2 database, past in the value field, and click on "Send" butto
 <p>To use the Put method to update the user file, it's the same link as the last one. For the Params, it's necessary to use the id that the user wish to change the data, similar as the last one. 
 Then, in the body, use raw (JSON) format, using the same properties that was used to write the post method. Then, update the data you wish to change. 
 To test it, just repeat the last get method used with the same id to see if the data has changed. Also, test it on H2 Console.</p>
+
+<p>To use the Delete method, just use the same link used for put and second get method. It's not necessary to insert body, just the value of the id to be deleted, same as in put method. It will return status <code>204 - No content</code>.</p>

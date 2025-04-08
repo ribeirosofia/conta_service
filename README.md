@@ -61,10 +61,12 @@
 <p>To do the Post method, it's necessary to use the link <code>http://localhost:9000/api/contas</code>. Change the body to raw (JSON) format and write the following attributes to be valid:</p>
 
 <code>
+{
     "nomeTitular": "exemplo",
     "numeroAgencia": "1234",
     "numeroConta": "56789",
     "chavePix": "exemplo@pix"
+}  
 </code>
 
 <p>It will return status <code>201</code>, which means it was created.</p>

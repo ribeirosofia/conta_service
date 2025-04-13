@@ -9,6 +9,7 @@ import com.bootcamp.conta_service_2025.model.Conta;
 import com.bootcamp.conta_service_2025.model.Pix;
 import com.bootcamp.conta_service_2025.repository.ContaRepository;
 import com.bootcamp.conta_service_2025.repository.PixRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,16 +23,31 @@ public class PixService {
     private final PixRepository pixRepository;
     private final ContaRepository contaRepository;
 
+
+    @Transactional
     public PixResponseDTO realizaPix(PixRequestDTO pixRequestDTO){
+
+        Optional<Pix> existingPix = pixRepository.findByIdempotencia(pixRequestDTO.getIdempotencia());
+
+        if (existingPix.isPresent()){
+            return new PixResponseDTO(
+                    existingPix.get().getCreatedAt(),
+                    "Pix já processado com sucesso (idempotente).",
+                    existingPix.map(this::entityToDTO).get()
+            );
+
+
+        }
+
         Optional<Conta> contaPagadorOptional = contaRepository.findByChavePix(pixRequestDTO.getChavePixPagador());
 
         if(contaPagadorOptional.isEmpty()){
-            throw new ContaNaoExistenteException(String.format("Conta com a chave %s não existe.", pixRequestDTO.getChavePixRecebedor()));
+            throw new ContaNaoExistenteException(String.format("Conta com a chave %s não existe.", pixRequestDTO.getChavePixPagador()));
         }
 
         Optional<Conta> contaRecebedorOptional = contaRepository.findByChavePix(pixRequestDTO.getChavePixRecebedor());
 
-        if(contaPagadorOptional.isEmpty()){
+        if(contaRecebedorOptional.isEmpty()){
             throw new ContaNaoExistenteException(String.format("Conta com a chave %s não existe.", pixRequestDTO.getChavePixRecebedor()));
         }
 
@@ -43,7 +59,7 @@ public class PixService {
         }
 
         contaPagador.sacar(pixRequestDTO.getValor());
-        contaPagador.depositar(pixRequestDTO.getValor());
+        contaRecebedor.depositar(pixRequestDTO.getValor());
 
         contaRepository.save(contaPagador);
         contaRepository.save(contaRecebedor);

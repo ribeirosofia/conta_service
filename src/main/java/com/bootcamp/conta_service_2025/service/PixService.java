@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -26,6 +27,10 @@ public class PixService {
 
     @Transactional
     public PixResponseDTO realizaPix(PixRequestDTO pixRequestDTO){
+
+        if (pixRequestDTO.getValor().compareTo(BigDecimal.ZERO) <= 0){
+            throw new RuntimeException("Não é permitido fazer pix com valor menor que R$ 0,01.");
+        }
 
         Optional<Pix> existingPix = pixRepository.findByIdempotencia(pixRequestDTO.getIdempotencia());
 

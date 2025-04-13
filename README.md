@@ -92,3 +92,18 @@ To test it, just repeat the last get method used with the same id to see if the 
 <p>Inside the repository package, create the interface <code>PixRepository</code></p>
 
 <p>Inside the service package, create the class <code>PixService</code></p>
+
+<p>Inside the controller package, create the class PixController</p>
+
+<p>To test the API in Postman, use the following link: <code>http://localhost:9000/api/pix</code></p>
+
+<p>To test the post method, use the following attributes:</p>
+
+<code>
+  {
+    "chavePixRecebedor" : "nome1@pix.com",
+    "chavePixPagador" : "nome2@pix.com",
+    "valor" : "3000",
+    "idempotencia" : "text"
+}
+</code>

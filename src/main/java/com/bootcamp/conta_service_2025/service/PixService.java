@@ -5,6 +5,7 @@ import com.bootcamp.conta_service_2025.dto.PixRequestDTO;
 import com.bootcamp.conta_service_2025.dto.PixResponseDTO;
 import com.bootcamp.conta_service_2025.exception.ContaNaoExistenteException;
 import com.bootcamp.conta_service_2025.exception.SaldoInsuficienteException;
+import com.bootcamp.conta_service_2025.feign.BacenService;
 import com.bootcamp.conta_service_2025.model.Conta;
 import com.bootcamp.conta_service_2025.model.Pix;
 import com.bootcamp.conta_service_2025.repository.ContaRepository;
@@ -23,6 +24,7 @@ public class PixService {
 
     private final PixRepository pixRepository;
     private final ContaRepository contaRepository;
+    private final BacenService bacenService;
 
 
     @Transactional
@@ -41,16 +43,18 @@ public class PixService {
                     existingPix.map(this::entityToDTO).get()
             );
 
-
         }
+            String chavePagador = bacenService.buscaChave(pixRequestDTO.getChavePixPagador()).getChave();
 
-        Optional<Conta> contaPagadorOptional = contaRepository.findByChavePix(pixRequestDTO.getChavePixPagador());
+        Optional<Conta> contaPagadorOptional = contaRepository.findByChavePix(chavePagador);
 
         if(contaPagadorOptional.isEmpty()){
             throw new ContaNaoExistenteException(String.format("Conta com a chave %s não existe.", pixRequestDTO.getChavePixPagador()));
         }
 
-        Optional<Conta> contaRecebedorOptional = contaRepository.findByChavePix(pixRequestDTO.getChavePixRecebedor());
+        String chaveRecebedor = bacenService.buscaChave(pixRequestDTO.getChavePixRecebedor()).getChave();
+
+        Optional<Conta> contaRecebedorOptional = contaRepository.findByChavePix(chaveRecebedor);
 
         if(contaRecebedorOptional.isEmpty()){
             throw new ContaNaoExistenteException(String.format("Conta com a chave %s não existe.", pixRequestDTO.getChavePixRecebedor()));

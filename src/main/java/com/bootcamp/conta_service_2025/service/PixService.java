@@ -5,6 +5,7 @@ import com.bootcamp.conta_service_2025.dto.PixRequestDTO;
 import com.bootcamp.conta_service_2025.dto.PixResponseDTO;
 import com.bootcamp.conta_service_2025.exception.ContaNaoExistenteException;
 import com.bootcamp.conta_service_2025.exception.SaldoInsuficienteException;
+import com.bootcamp.conta_service_2025.exception.ValorInvalidoException;
 import com.bootcamp.conta_service_2025.feign.BacenService;
 import com.bootcamp.conta_service_2025.model.Conta;
 import com.bootcamp.conta_service_2025.model.Pix;
@@ -31,7 +32,7 @@ public class PixService {
     public PixResponseDTO realizaPix(PixRequestDTO pixRequestDTO){
 
         if (pixRequestDTO.getValor().compareTo(BigDecimal.ZERO) <= 0){
-            throw new RuntimeException("Não é permitido fazer pix com valor menor que R$ 0,01.");
+            throw new ValorInvalidoException(String.format("Valor inválido."));
         }
 
         Optional<Pix> existingPix = pixRepository.findByIdempotencia(pixRequestDTO.getIdempotencia());

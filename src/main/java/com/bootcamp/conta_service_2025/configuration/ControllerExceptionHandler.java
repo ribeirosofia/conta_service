@@ -3,6 +3,7 @@ package com.bootcamp.conta_service_2025.configuration;
 import com.bootcamp.conta_service_2025.exception.ContaExistenteException;
 import com.bootcamp.conta_service_2025.exception.ContaNaoExistenteException;
 import com.bootcamp.conta_service_2025.exception.SaldoInsuficienteException;
+import com.bootcamp.conta_service_2025.exception.ValorInvalidoException;
 import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.http.*;
 import org.springframework.validation.FieldError;
@@ -67,5 +68,11 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
-
+    @ExceptionHandler(ValorInvalidoException.class)
+    private ProblemDetail exceptionValorInvalido(ValorInvalidoException ex){
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.METHOD_NOT_ALLOWED, ex.getMessage());
+        problemDetail.setTitle("Valor inválido");
+        problemDetail.setType(URI.create("http://localhost/9000/doc/valor-invalido"));
+        return problemDetail;
+    }
 }

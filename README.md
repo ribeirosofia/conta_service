@@ -107,3 +107,8 @@ To test it, just repeat the last get method used with the same id to see if the 
     "idempotencia" : "text"
 }
 </code>
+
+
+<p>To integrate the project <code>conta-service</code> to <code>bacen-service</code>, it's necessary to create a package inside main named <code>feign</code>.</p>
+
+<p>Inside the feng package, create the interface <code>BacenClient</code> and the class <code>BacenService</code>. Create the dto package with the classes <code>ChaveRequestDTO</code> and <code>ChaveResponseDTO</code>.</p>
